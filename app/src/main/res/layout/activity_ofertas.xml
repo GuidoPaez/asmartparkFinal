@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo2"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ofertas">
+
+
+    <TextView
+        android:id="@+id/txtnom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/press_start_2p"
+        android:paddingTop="30dp"
+        android:soundEffectsEnabled="false"
+        android:text="Bienvenido"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textIsSelectable="false"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_oferta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_mapa"
+            android:backgroundTint="@color/colorPrimary"
+            android:fontFamily="@font/audiowide"
+            android:soundEffectsEnabled="true"
+            android:text="Ver Ofertas"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_mapa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="161dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:fontFamily="@font/audiowide"
+            android:soundEffectsEnabled="true"
+            android:text="Ver Estacionamiento"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_volver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="105dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:fontFamily="@font/audiowide"
+            android:soundEffectsEnabled="true"
+            android:text="Volver"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="297dp"
+            android:layout_above="@+id/btn_mapa"
+            app:srcCompat="@drawable/logo" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

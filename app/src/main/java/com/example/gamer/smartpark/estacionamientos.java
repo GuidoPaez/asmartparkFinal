@@ -99,7 +99,7 @@ public class estacionamientos extends FragmentActivity implements OnMapReadyCall
         mMap = googleMap;
         miUbicacion();
 
-
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(-29.9364559, -71.2525471)));
 
 //        //Mi ubicación actual:
 //        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

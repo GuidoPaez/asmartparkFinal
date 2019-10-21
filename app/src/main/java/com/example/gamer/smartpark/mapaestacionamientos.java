@@ -1,7 +1,8 @@
 package com.example.gamer.smartpark;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class mapaestacionamientos extends AppCompatActivity {
 

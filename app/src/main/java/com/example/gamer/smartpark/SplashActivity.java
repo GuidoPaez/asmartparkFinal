@@ -1,6 +1,5 @@
 package com.example.gamer.smartpark;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.content.Intent;
@@ -8,6 +7,8 @@ import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.w3c.dom.Text;
 

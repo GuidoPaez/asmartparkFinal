@@ -6,19 +6,22 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -40,6 +43,7 @@ import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.example.gamer.smartpark.ofertas;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,6 +56,11 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import Room.BaseDeDatos.BaseDeDatosApp;
+import Room.DAO.CategoriaDAO;
+import Room.DAO.EmpresaDAO;
+import Room.DAO.OfertaDAO;
 
 public class estacionamientos extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -260,7 +269,7 @@ public class estacionamientos extends FragmentActivity implements OnMapReadyCall
 
 
         try {
-            url = new URL("http://192.168.56.1/smartpark/funciones/get_data_oferta.php?");
+            url = new URL("http://smartpark.repositoriomax.net/get_data_oferta.php?");
             HttpURLConnection  connection = (HttpURLConnection)url.openConnection();
             respuesta= connection.getResponseCode();
 
@@ -282,6 +291,8 @@ public class estacionamientos extends FragmentActivity implements OnMapReadyCall
         return resul.toString();
 
     }
+
+
 
 
 

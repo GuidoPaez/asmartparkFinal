@@ -25,10 +25,16 @@ import java.net.URL;
 import Room.BaseDeDatos.BaseDeDatosApp;
 import Room.DAO.CategoriaDAO;
 import Room.DAO.EmpresaDAO;
+import Room.DAO.EstacionamientoDAO;
 import Room.DAO.OfertaDAO;
+import Room.DAO.StripcenterDAO;
+import Room.DAO.TipoEstacionamientoDAO;
 import Room.Entidades.Categoria;
 import Room.Entidades.Empresa;
+import Room.Entidades.Estacionamiento;
 import Room.Entidades.Oferta;
+import Room.Entidades.Stripcenter;
+import Room.Entidades.TipoEstacionamiento;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -91,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
             EmpresaDAO empresaDAO = database.getEmpresaDAO();
             OfertaDAO ofertaDAO = database.getOfertaDAO();
             CategoriaDAO categoriaDAO = database.getCategoriaDAO();
+            EstacionamientoDAO estacionamientoDAO = database.getEstacionamientoDAO();
+            TipoEstacionamientoDAO tipoEstacionamientoDAO = database.getTipoEstacionamientoDAO();
+            StripcenterDAO stripcenterDAO = database.getStripcenterDAO();
 
             //CONSULTAR AWS POR BS Y RECUPERAR EL JSON
 
@@ -122,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
                 JSONArray JSONARRAY_empresas = JSONARRAY_bd.getJSONArray(0);
                 JSONArray JSONARRAY_ofertas = JSONARRAY_bd.getJSONArray(1);
                 JSONArray JSONARRAY_categoria = JSONARRAY_bd.getJSONArray(2);
+                JSONArray JSONARRAY_estacionamientos = JSONARRAY_bd.getJSONArray(3);
+                JSONArray JSONARRAY_stripcenters = JSONARRAY_bd.getJSONArray(4);
+                JSONArray JSONARRAY_tipoestacionamientos = JSONARRAY_bd.getJSONArray(5);
 
                 for(int i=0; i<JSONARRAY_empresas.length();i++){
                     JSONObject JSONOBJempresa = JSONARRAY_empresas.getJSONObject(i);
@@ -152,6 +164,37 @@ public class MainActivity extends AppCompatActivity {
                     oferta.setId_empresa(JSONOBJoferta.getInt("id_empresa"));
                     ofertaDAO.insert(oferta);
                     Log.d("DEBUG","Oferta "+oferta.getId()+": "+oferta.getDescuento()+" insertada con exito.");
+                }
+
+                for(int i=0; i<JSONARRAY_tipoestacionamientos.length();i++){
+                    JSONObject JSONOBJtipoestacionamiento = JSONARRAY_tipoestacionamientos.getJSONObject(i);
+                    TipoEstacionamiento tipoestacionamiento = new TipoEstacionamiento();
+                    tipoestacionamiento.setId(JSONOBJtipoestacionamiento.getInt("id"));
+                    tipoestacionamiento.setDescripcion(JSONOBJtipoestacionamiento.getString("descripcion"));
+                    tipoEstacionamientoDAO.insert(tipoestacionamiento);
+                    Log.d("DEBUG","TipoEstacionamiento "+tipoestacionamiento.getId()+": "+tipoestacionamiento.getDescripcion()+" insertado con exito.");
+                }
+
+                for(int i=0; i<JSONARRAY_estacionamientos.length();i++){
+                    JSONObject JSONOBJestacionamiento = JSONARRAY_estacionamientos.getJSONObject(i);
+                    Estacionamiento estacionamiento = new Estacionamiento();
+                    estacionamiento.setId(JSONOBJestacionamiento.getInt("id"));
+                    estacionamiento.setNombre(JSONOBJestacionamiento.getString("nombre"));
+                    estacionamiento.setLatitud(Double.parseDouble(JSONOBJestacionamiento.getString("latitud")));
+                    estacionamiento.setLongitud(Double.parseDouble(JSONOBJestacionamiento.getString("longitud")));
+                    estacionamiento.setId_tipo(JSONOBJestacionamiento.getInt("id_tipo"));
+                    estacionamientoDAO.insert(estacionamiento);
+                    Log.d("DEBUG","Estacionamiento "+estacionamiento.getId()+": "+estacionamiento.getNombre()+" insertado con exito.");
+                }
+
+                for(int i=0; i<JSONARRAY_stripcenters.length();i++){
+                    JSONObject JSONOBJstripcenter = JSONARRAY_stripcenters.getJSONObject(i);
+                    Stripcenter stripcenter = new Stripcenter();
+                    stripcenter.setId(JSONOBJstripcenter.getInt("id"));
+                    stripcenter.setId_empresa(JSONOBJstripcenter.getInt("id_empresa"));
+                    stripcenter.setId_estacionamiento(JSONOBJstripcenter.getInt("id_estacionamiento"));
+                    stripcenterDAO.insert(stripcenter);
+                    Log.d("DEBUG","Stripcenter "+stripcenter.getId()+": "+stripcenter.getId_empresa()+", "+stripcenter.getId_estacionamiento()+" insertado con exito.");
                 }
 
             } catch (JSONException e) {

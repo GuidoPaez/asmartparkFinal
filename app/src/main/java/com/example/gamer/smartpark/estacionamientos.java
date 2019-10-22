@@ -35,6 +35,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -54,6 +55,7 @@ import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -61,6 +63,8 @@ import Room.BaseDeDatos.BaseDeDatosApp;
 import Room.DAO.CategoriaDAO;
 import Room.DAO.EmpresaDAO;
 import Room.DAO.OfertaDAO;
+import Room.Entidades.Estacionamiento;
+import Room.Entidades.Stripcenter;
 
 public class estacionamientos extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -104,7 +108,7 @@ public class estacionamientos extends FragmentActivity implements OnMapReadyCall
 
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         miUbicacion();
 
@@ -126,43 +130,49 @@ public class estacionamientos extends FragmentActivity implements OnMapReadyCall
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
 
-//
-        //Add a marker in Sydney and move the camera
-        LatLng Santaisabel = new LatLng(-29.978027, -71.346459);
-        //mMap.addMarker(new MarkerOptions().position(Santaisabel).title("Estacionamiento Santa Isabel").snippet("Estacionamiento No Techado").icon(BitmapDescriptorFactory.fromResource(R.drawable.estacionamiento)));
-        markerSI = googleMap.addMarker(new MarkerOptions().position(Santaisabel).title("Estacionamiento Santa Isabel").snippet("Estacionamiento No Techado").icon(BitmapDescriptorFactory.fromResource(R.drawable.estacionamiento)));
+        //CARGAR MARCADORES DESDE LOS STRIPCENTER DE LA BD
+        Thread tr = new Thread(){
+            @Override
+            public void run() {
+                final BaseDeDatosApp database = BaseDeDatosApp.recuperarBaseDatosApp(getApplicationContext());
+                final List<Stripcenter> ListaDeStripcenters = database.getStripcenterDAO().getStripcenters();
+                for (int i = 0 ; i < ListaDeStripcenters.size() ; i++)
+                {
+                    //Log.d("DEBUG","Nombre Empresa: "+BaseDeDatosApp.recuperarBaseDatosApp(getApplicationContext()).getEmpresaDAO().getEmpresaPorId(ListaDeStripcenters.get(i).getId_empresa()).getNombre()+", Nombre Estacionamiento: "+BaseDeDatosApp.recuperarBaseDatosApp(getApplicationContext()).getEstacionamientoDAO().getEstacionamientoPorId(ListaDeStripcenters.get(i).getId_estacionamiento()).getNombre()+", Tipo Est: "+BaseDeDatosApp.recuperarBaseDatosApp(getApplicationContext()).getTipoEstacionamientoDAO().getTipoEstacionamientoPorId(BaseDeDatosApp.recuperarBaseDatosApp(getApplicationContext()).getEstacionamientoDAO().getEstacionamientoPorId(ListaDeStripcenters.get(i).getId_estacionamiento()).getId_tipo()).getDescripcion());
+                    final Double Lat = database.getEstacionamientoDAO().getEstacionamientoPorId(ListaDeStripcenters.get(i).getId_estacionamiento()).getLatitud(), Long = database.getEstacionamientoDAO().getEstacionamientoPorId(ListaDeStripcenters.get(i).getId_estacionamiento()).getLongitud();
+                    final String nombre = database.getEstacionamientoDAO().getEstacionamientoPorId(ListaDeStripcenters.get(i).getId_estacionamiento()).getNombre();
+                    final String tipoEstacionamiento = database.getTipoEstacionamientoDAO().getTipoEstacionamientoPorId(database.getEstacionamientoDAO().getEstacionamientoPorId(ListaDeStripcenters.get(i).getId_estacionamiento()).getId_tipo()).getDescripcion();
+                    final BitmapDescriptor icon;
+                    if (tipoEstacionamiento.equals("Estacionamiento No Techado"))
+                    {
+                        icon=BitmapDescriptorFactory.fromResource(R.drawable.estacionamiento);
+                    }
+                    else
+                        {
+                        icon = BitmapDescriptorFactory.fromResource(R.drawable.estatechado);
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Marker marcador = googleMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(Lat,Long))
+                                .title(nombre)
+                                .snippet(tipoEstacionamiento)
+                                .icon(icon));
+                            Listadeestacionamientos.add(marcador);
+                        }
+                    });
+                }
+                //CARGAR MARCADORES EN EL MAPA
+                Arraycontroller.getInstance().setMarker(Listadeestacionamientos);
+            }
+        };
+        tr.start();
 
-        LatLng Alvi = new LatLng(-29.959001,-71.338918);
-       // mMap.addMarker(new MarkerOptions().position(Alvi).title("Estacionamiento Alvi Mayorista").snippet("Estacionamiento No Techado").icon(BitmapDescriptorFactory.fromResource(R.drawable.estacionamiento)));
-        markerAlvi = googleMap.addMarker(new MarkerOptions().position(Alvi).title("Estacionamiento Alvi Mayorista").snippet("Estacionamiento No Techado").icon(BitmapDescriptorFactory.fromResource(R.drawable.estacionamiento)));
-
-//        LatLng Lider = new LatLng(-29.9644,-71.33028409999997);
-//        mMap.addMarker(new MarkerOptions().position(Lider).title("Estacionamiento Lider").snippet("Estacionamiento Techado Disponible").icon(BitmapDescriptorFactory.fromResource(R.drawable.estatechado)));
-
-        LatLng SantaIsabelCompañias = new LatLng(-29.8884388,-71.24318629999999);
-        //mMap.addMarker(new MarkerOptions().position(SantaIsabelCompañias).title("Estacionamiento Santa Isabel Las Compañías").snippet("Estacionamiento No Techado").snippet("Estacionamiento No Techado").icon(BitmapDescriptorFactory.fromResource(R.drawable.estacionamiento)));
-        markerSantaIsabelLC = googleMap.addMarker(new MarkerOptions().position(SantaIsabelCompañias).title("Estacionamiento Santa Isabel Las Compañías").snippet("Estacionamiento No Techado").snippet("Estacionamiento No Techado").icon(BitmapDescriptorFactory.fromResource(R.drawable.estacionamiento)));
-
-        LatLng MallPlaza = new LatLng(-29.9125806,-71.2582802);
-       // mMap.addMarker(new MarkerOptions().position(MallPlaza).title("Estacionamiento Mall Plaza La Serena").snippet("Estacionamiento Techado Disponible").icon(BitmapDescriptorFactory.fromResource(R.drawable.estatechado)));
-        markermallPlaza = googleMap.addMarker(new MarkerOptions().position(MallPlaza).title("Estacionamiento Mall Plaza La Serena").snippet("Estacionamiento Techado Disponible").icon(BitmapDescriptorFactory.fromResource(R.drawable.estatechado)));
-
-        LatLng Lider = new LatLng(-29.9644,-71.33028409999997);
-        markerLider = googleMap.addMarker(new MarkerOptions().position(Lider).title("Estacionamiento Lider").snippet("Estacionamiento Techado Disponible").icon(BitmapDescriptorFactory.fromResource(R.drawable.estatechado)));
-        //markerprueba = googleMap.addMarker(new MarkerOptions().position(prueba).title("prueba"));
 
         mMap.setTrafficEnabled(true);
-        //mMap.setInfoWindowAdapter(this);
 
         googleMap.setOnMarkerClickListener(this);
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(SantaIsabel));
-
-        Listadeestacionamientos.add(markerAlvi);
-        Listadeestacionamientos.add(markerLider);
-        Listadeestacionamientos.add(markerSI);
-        Listadeestacionamientos.add(markerSantaIsabelLC);
-        Listadeestacionamientos.add(markermallPlaza);
-        Arraycontroller.getInstance().setMarker(Listadeestacionamientos);
     }
 
 
@@ -291,12 +301,6 @@ public class estacionamientos extends FragmentActivity implements OnMapReadyCall
         return resul.toString();
 
     }
-
-
-
-
-
-
 
 
 

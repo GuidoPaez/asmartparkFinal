@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             int respuesta;
             StringBuilder resul= new StringBuilder();
             try {
-                url = new URL("http://marketing.repositoriomax.net/exportarbd.php");
+                url = new URL("http://smartpark.repositoriomax.net/exportarbd.php");
                 HttpURLConnection connection= (HttpURLConnection) url.openConnection();
                 respuesta= connection.getResponseCode();
 
@@ -129,11 +129,11 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONArray JSONARRAY_bd = new JSONArray(resul.toString());
                 JSONArray JSONARRAY_empresas = JSONARRAY_bd.getJSONArray(0);
-                JSONArray JSONARRAY_ofertas = JSONARRAY_bd.getJSONArray(1);
-                JSONArray JSONARRAY_categoria = JSONARRAY_bd.getJSONArray(2);
-                JSONArray JSONARRAY_estacionamientos = JSONARRAY_bd.getJSONArray(3);
-                JSONArray JSONARRAY_stripcenters = JSONARRAY_bd.getJSONArray(4);
-                JSONArray JSONARRAY_tipoestacionamientos = JSONARRAY_bd.getJSONArray(5);
+                JSONArray JSONARRAY_categoria = JSONARRAY_bd.getJSONArray(1);
+                JSONArray JSONARRAY_ofertas = JSONARRAY_bd.getJSONArray(2);
+                JSONArray JSONARRAY_tipoestacionamientos = JSONARRAY_bd.getJSONArray(3);
+                JSONArray JSONARRAY_estacionamientos = JSONARRAY_bd.getJSONArray(4);
+                JSONArray JSONARRAY_stripcenters = JSONARRAY_bd.getJSONArray(5);
 
                 for(int i=0; i<JSONARRAY_empresas.length();i++){
                     JSONObject JSONOBJempresa = JSONARRAY_empresas.getJSONObject(i);

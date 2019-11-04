@@ -55,6 +55,7 @@ import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -139,6 +140,7 @@ public class estacionamientos extends FragmentActivity implements OnMapReadyCall
                 for (int i = 0 ; i < ListaDeStripcenters.size() ; i++)
                 {
                     //Log.d("DEBUG","Nombre Empresa: "+BaseDeDatosApp.recuperarBaseDatosApp(getApplicationContext()).getEmpresaDAO().getEmpresaPorId(ListaDeStripcenters.get(i).getId_empresa()).getNombre()+", Nombre Estacionamiento: "+BaseDeDatosApp.recuperarBaseDatosApp(getApplicationContext()).getEstacionamientoDAO().getEstacionamientoPorId(ListaDeStripcenters.get(i).getId_estacionamiento()).getNombre()+", Tipo Est: "+BaseDeDatosApp.recuperarBaseDatosApp(getApplicationContext()).getTipoEstacionamientoDAO().getTipoEstacionamientoPorId(BaseDeDatosApp.recuperarBaseDatosApp(getApplicationContext()).getEstacionamientoDAO().getEstacionamientoPorId(ListaDeStripcenters.get(i).getId_estacionamiento()).getId_tipo()).getDescripcion());
+                    final int id_empresa = database.getEmpresaDAO().getEmpresaPorId(ListaDeStripcenters.get(i).getId_empresa()).getId();
                     final Double Lat = database.getEstacionamientoDAO().getEstacionamientoPorId(ListaDeStripcenters.get(i).getId_estacionamiento()).getLatitud(), Long = database.getEstacionamientoDAO().getEstacionamientoPorId(ListaDeStripcenters.get(i).getId_estacionamiento()).getLongitud();
                     final String nombre = database.getEstacionamientoDAO().getEstacionamientoPorId(ListaDeStripcenters.get(i).getId_estacionamiento()).getNombre();
                     final String tipoEstacionamiento = database.getTipoEstacionamientoDAO().getTipoEstacionamientoPorId(database.getEstacionamientoDAO().getEstacionamientoPorId(ListaDeStripcenters.get(i).getId_estacionamiento()).getId_tipo()).getDescripcion();
@@ -159,6 +161,7 @@ public class estacionamientos extends FragmentActivity implements OnMapReadyCall
                                 .title(nombre)
                                 .snippet(tipoEstacionamiento)
                                 .icon(icon));
+                            marcador.setTag(id_empresa);
                             Listadeestacionamientos.add(marcador);
                         }
                     });
@@ -240,13 +243,17 @@ public class estacionamientos extends FragmentActivity implements OnMapReadyCall
 
 
     @Override
-    public boolean onMarkerClick(Marker marker) {
+    public boolean onMarkerClick(final Marker marker) {
 
         for (final Marker MARKER : Listadeestacionamientos) {
             if (marker.equals(MARKER)) {
                 Toast.makeText(estacionamientos.this, "PRESIONE PARA GENERAR LA RUTA MÁS RÁPIDA ---------------------" +
                         "-------------------" +
                         "-- ↓↓ ", Toast.LENGTH_LONG).show();
+                marker.getTitle();
+
+                final int id_empresa = Integer.parseInt(marker.getTag().toString());
+                final int id_estacionamiento = Listadeestacionamientos.indexOf(MARKER);
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -254,13 +261,14 @@ public class estacionamientos extends FragmentActivity implements OnMapReadyCall
 
                         Intent intent = new Intent(estacionamientos.this, ofertas.class);
                         intent.putExtra("Bienvenido",MARKER.getTitle().toString());
+                        intent.putExtra("id_empresa",id_empresa);
+                        intent.putExtra("id_estacionamiento",id_estacionamiento);
+                        Log.d("DEBUG","Id Empresa: "+id_empresa);
                         startActivity(intent);
 
                         // Actions to do after 10 seconds
                     }
                 }, 4000);
-
-
 
 
 

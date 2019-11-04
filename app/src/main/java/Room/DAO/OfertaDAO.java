@@ -26,4 +26,7 @@ public interface OfertaDAO {
 
     @Query("SELECT * FROM oferta WHERE id = :id")
     public Oferta getOfertaPorId(int id);
+
+    @Query("SELECT * FROM oferta WHERE id_empresa = :id_empresa")
+    public List<Oferta> getOfertasPorEmpresa(int id_empresa);
 }

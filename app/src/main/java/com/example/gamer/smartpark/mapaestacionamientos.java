@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class mapaestacionamientos extends AppCompatActivity {
 
-    private static final String ETIQUETA = MainActivity.class.getSimpleName();
+    private static final String ETIQUETA = mapaestacionamientos.class.getSimpleName();
     private static final int WHAT = 1;
     private static final int TIEMPO_REPETICION = 2000;
 
@@ -41,7 +41,7 @@ public class mapaestacionamientos extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_mapaestacionamientos);
 
         Thread tr = new Thread(){
             @Override

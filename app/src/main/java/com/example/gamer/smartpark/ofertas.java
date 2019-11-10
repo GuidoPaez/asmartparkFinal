@@ -35,7 +35,8 @@ public class ofertas extends AppCompatActivity {
         btnmapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ofertas.this,mapaestacionamientos.class).putExtra("id_estacionamiento",id_estacionamiento));
+                //startActivity(new Intent(ofertas.this,mapaestacionamientos.class).putExtra("id_estacionamiento",id_estacionamiento));
+                startActivity(new Intent(getApplicationContext(),mapaestacionamientos.class));
             }
         });
 

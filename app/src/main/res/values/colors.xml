@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="BLACK">#000</color>
+    <color name="YELLOW">#FFFF00</color>
+    <color name="background">#666</color>
+    <color name="calle">#999</color>
+    <color name="libre">#28a745</color>
+    <color name="ocupado">#dc3545</color>
+    <color name="WHITE">#FFF</color>
 </resources>

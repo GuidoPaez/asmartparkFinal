@@ -70,7 +70,7 @@ public class mapaestacionamientos extends AppCompatActivity {
             Thread tr = new Thread(){
                 @Override
                 public void run() {
-                    final ArrayList<View> ListaBotones =((LinearLayout) findViewById(R.id.LinLay1)).getTouchables();
+                    final ArrayList<View> ListaBotones =((LinearLayout) findViewById(R.id.LinLayEstacionamiento)).getTouchables();
                     final String resultado = obtenerEstadosEstacionamientos();
                     runOnUiThread(new Runnable() {
                         @Override
@@ -173,9 +173,7 @@ public class mapaestacionamientos extends AppCompatActivity {
         int respuesta;
         StringBuilder resul= new StringBuilder();
         try {
-            //CAMBIAR URL A REPOSITORIOMAX.NET
-            //url = new URL("http://smartpark.repositoriomax.net/estacionamientos.php");
-            url = new URL("http://spp.cyberls.net/sensores/recuperar_datos.php");
+            url = new URL("http://smartpark.repositoriomax.net/estacionamientos.php");
             HttpURLConnection connection= (HttpURLConnection) url.openConnection();
             respuesta= connection.getResponseCode();
 

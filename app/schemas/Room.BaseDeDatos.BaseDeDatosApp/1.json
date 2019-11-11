@@ -1,0 +1,370 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "90451bd60a0a982bdea45b85525382d6",
+    "entities": [
+      {
+        "tableName": "empresa",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`nombre` TEXT, `RUT` TEXT, `DV` TEXT, `id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "RUT",
+            "columnName": "RUT",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "DV",
+            "columnName": "DV",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_empresa_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_empresa_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "oferta",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`descuento` REAL, `id_empresa` INTEGER NOT NULL, `id_categoria` INTEGER NOT NULL, `id` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`id_categoria`) REFERENCES `categoria`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`id_empresa`) REFERENCES `empresa`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "descuento",
+            "columnName": "descuento",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id_empresa",
+            "columnName": "id_empresa",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id_categoria",
+            "columnName": "id_categoria",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_oferta_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_oferta_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_oferta_id_empresa",
+            "unique": false,
+            "columnNames": [
+              "id_empresa"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_oferta_id_empresa` ON `${TABLE_NAME}` (`id_empresa`)"
+          },
+          {
+            "name": "index_oferta_id_categoria",
+            "unique": false,
+            "columnNames": [
+              "id_categoria"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_oferta_id_categoria` ON `${TABLE_NAME}` (`id_categoria`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "categoria",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_categoria"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "empresa",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_empresa"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "categoria",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`descripcion` TEXT, `id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "descripcion",
+            "columnName": "descripcion",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_categoria_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_categoria_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "estacionamiento",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`latitud` REAL, `longitud` REAL, `nombre` TEXT, `id_tipo` INTEGER NOT NULL, `id` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`id_tipo`) REFERENCES `tipoestacionamiento`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "latitud",
+            "columnName": "latitud",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "longitud",
+            "columnName": "longitud",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id_tipo",
+            "columnName": "id_tipo",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_estacionamiento_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_estacionamiento_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_estacionamiento_id_tipo",
+            "unique": false,
+            "columnNames": [
+              "id_tipo"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_estacionamiento_id_tipo` ON `${TABLE_NAME}` (`id_tipo`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "tipoestacionamiento",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_tipo"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "stripcenter",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_estacionamiento` INTEGER NOT NULL, `id_empresa` INTEGER NOT NULL, `id` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`id_estacionamiento`) REFERENCES `estacionamiento`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`id_empresa`) REFERENCES `empresa`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id_estacionamiento",
+            "columnName": "id_estacionamiento",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id_empresa",
+            "columnName": "id_empresa",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_stripcenter_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_stripcenter_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_stripcenter_id_estacionamiento",
+            "unique": false,
+            "columnNames": [
+              "id_estacionamiento"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_stripcenter_id_estacionamiento` ON `${TABLE_NAME}` (`id_estacionamiento`)"
+          },
+          {
+            "name": "index_stripcenter_id_empresa",
+            "unique": false,
+            "columnNames": [
+              "id_empresa"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_stripcenter_id_empresa` ON `${TABLE_NAME}` (`id_empresa`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "estacionamiento",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_estacionamiento"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "empresa",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_empresa"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "tipoestacionamiento",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`descripcion` TEXT, `id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "descripcion",
+            "columnName": "descripcion",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_tipoestacionamiento_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tipoestacionamiento_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '90451bd60a0a982bdea45b85525382d6')"
+    ]
+  }
+}

@@ -1,25 +1,25 @@
 package com.example.gamer.smartpark;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.Marker;
+import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
+import java.util.List;
 
-import java.util.ArrayList;
+import Room.BaseDeDatos.BaseDeDatosApp;
+import Room.Entidades.Empresa;
+import Room.Entidades.Oferta;
 
 public class mostrarOfertas extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        TextView titulo;
-        ImageView logo;
-        TextView oferta;
+        final TextView titulo;
+        final ImageView logo;
+        final TextView oferta;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostrar_ofertas);
@@ -29,31 +29,51 @@ public class mostrarOfertas extends AppCompatActivity {
         logo = (ImageView) findViewById(R.id.logo);
         oferta = (TextView) findViewById(R.id.txtoferta);
 
-        String titulomarker = getIntent().getStringExtra("Titulo");
-            if (titulomarker.equals("Estacionamiento Alvi Mayorista")) {
-                titulo.setText("Ofertas Exclusivas Alvi \uD83D\uDED2");
-                oferta.setText("50% Descuento en carnes mostrando Licencia de conducir ☺");
-                logo.setImageResource(R.drawable.alvi);
+        final int id_empresa=getIntent().getIntExtra("id_empresa",0);
+        final BaseDeDatosApp database = BaseDeDatosApp.recuperarBaseDatosApp(getApplicationContext());
+        oferta.setText("");
 
-            } else if (titulomarker.equals("Estacionamiento Lider")) {
-                titulo.setText("Ofertas Exclusivas Lider! \uD83D\uDED2 \uD83E\uDD64 ");
-                oferta.setText("2x1 Lacteos y cereales mostrando su Ubicación dentro del estacionamiento en caja ☺");
-                logo.setImageResource(R.drawable.lider);
+        Thread tr = new Thread(){
+            @Override
+            public void run() {
 
-            } else if (titulomarker.equals("Estacionamiento Santa Isabel Las Compañías")) {
-                titulo.setText("Ofertas Exclusivas Santa Isabel Las Compañías ♫");
-                oferta.setText("30% descuento al final de su compra, mostrando su Ubicación dentro del estacionamiento en caja");
-                logo.setImageResource(R.drawable.santaisabel);
+                Empresa empresa = database.getEmpresaDAO().getEmpresaPorId(id_empresa);
+                final List<Oferta> ListaOfertas = database.getOfertaDAO().getOfertasPorEmpresa(id_empresa);
 
-            } else if (titulomarker.equals("Estacionamiento Mall Plaza La Serena")) {
-                titulo.setText("Ofertas Exclusivas Mall Plaza! \uD83D\uDCB5 \uD83D\uDECD ");
-                oferta.setText("50% Descuento en carnes mostrando Licencia de conducir ☺");
-                logo.setImageResource(R.drawable.mall);
-            } else{
-                titulo.setText("Ofertas Exclusivas Santa Isabel Coquimbo! \uD83D\uDED2 \uD83D\uDED2 \uD83D\uDCB5  ");
-                oferta.setText("3x2 en bebidas, todas las marcas, mostrando su Ubicación dentro del estacionamiento en caja ♥");
-                logo.setImageResource(R.drawable.santaisabel);
-       }
+                titulo.setText("Ofertas Exclusivas "+empresa.getNombre());
+                for (int i = 0 ; i < ListaOfertas.size() ; i++)
+                {
+                    Float porcentaje = ListaOfertas.get(i).getDescuento();
+                    String categoria = database.getCategoriaDAO().getCategoriaPorId(ListaOfertas.get(i).getId_categoria()).getDescripcion();
+                    oferta.setText(oferta.getText()+""+porcentaje+"% Descuento en "+categoria+"\n");
+
+                    //oferta.setText(ListaOfertas.get(i).getDescuento()+"% Descuento en "+database.getCategoriaDAO().getCategoriaPorId(ListaOfertas.get(i).getId_categoria()).getDescripcion()+"\n");
+                }
+                switch (empresa.getId()){
+                    case 1:
+                        logo.setImageResource(R.drawable.lider);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        logo.setImageResource(R.drawable.alvi);
+                        break;
+                    case 5:
+                        logo.setImageResource(R.drawable.santaisabel);
+                        break;
+                    case 6:
+                        logo.setImageResource(R.drawable.mall);
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }
+        };
+        tr.start();
 
     }
 }

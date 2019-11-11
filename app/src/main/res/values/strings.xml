@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">smartpark</string>
     <string name="title_activity_estacionamientos">Map</string>
+    <string name="libre">Libre</string>
+    <string name="ocupado">Ocupado</string>
+    <string name="estado">"?"</string>
+    <string name="filler">/</string>
+    <string name="cancelar">Pagar</string>
+    <string name="volver">Volver</string>
+    <string name="piso1">1er Piso</string>
+    <string name="piso2">2do Piso</string>
+    <string name="piso3">3er Piso</string>
+    <string name="texto1">Debe cancelar para poder salir del estacionamiento</string>
+    <string name="texto2">Usted estuvo 37 minutos. El total a cancelar son $356 pesos</string>
 </resources>
